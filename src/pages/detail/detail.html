@@ -1,0 +1,22 @@
+<!--index.wxml-->
+<view class="container">
+  <view  bindtap="bindViewTap" class="userinfo">
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+    <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+  
+  <view>
+    <button bindtap="getList">点击list</button>
+  </view>
+  <view class="footer">
+    <navigator url="/" class="widget">
+        <text class="widget__name">button</text>        
+    </navigator>
+    <navigator url="../logs/logs" class="widget">
+        <text class="widget__name">button</text>        
+    </navigator>
+  </view>
+</view>

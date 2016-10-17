@@ -1,0 +1,21 @@
+<!--index.wxml-->
+
+<!-- <include src="../components/searchBar/searchBar.wxml"/> 
+<import src="../components/searchBar/searchBar.wxml"/>
+<template is="searchWrap"/>
+<view class="container">
+  <view class="showIcons">
+    <view wx:for-items="{{iconType}}" class="iconName" bindtap="changeShow">
+        <text class="iconNameTxt">{{item}}</text><icon type="{{item}}" size="45" color="#00ff00" class="iconNameImg"/>
+    </view>
+  </view>
+</view>
+
+<view class="shade" hidden="{{isShow}}" bindtap="changeShow"></view>
+-->
+<import src="../components/bbsList/bbsList.wxml" />
+<scroll-view class="container" style="height:{{wHeight}}px;" scroll-y="true" bindscrolltoupper="upper" bindscrolltolower="lower">
+	<block wx:for="{{dataList}}" wx:for-item="item">		
+		<template is="bbsList" data="{{item}}"/>
+	</block>
+</scroll-view>

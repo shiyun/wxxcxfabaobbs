@@ -1,0 +1,38 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/detail/detail"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "口袋玩法",
+    "navigationBarTextStyle":"black",
+    "backgroundColor": "#eee",
+    "enablePullDownRefresh": true
+  },  
+  "tabBar": {
+    "color": "#fff",
+    "selectedColor": "#fff",
+    "borderStyle": "white",
+    "backgroundColor": "#3DBED8",
+    "list": [{
+      "pagePath": "pages/index/index",
+      "iconPath": "images/chat.png",
+      "selectedIconPath": "images/chat.png",
+      "text": "在线咨询"
+    }, {
+      "pagePath": "pages/detail/detail",
+      "iconPath": "images/phone.png",
+      "selectedIconPath": "images/phone.png",
+      "text": "电话律师"
+    }]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "connectSocket": 10000,
+    "uploadFile": 10000,
+    "downloadFile": 10000
+  },
+  "debug": true
+}

@@ -1,0 +1,10 @@
+<template name="bbsList">
+	<navigator class="bbsList" url="bbsDetail/?id={{item.id}}">
+		<view><text class="bbsTit">{{item.title}}</text></view>
+		<view class="bbsContWrap"><text class="bbsCont">{{item.content}}</text></view>
+		<view class="bbsFooter">
+			<image class="bbsUserHeader" src="{{item.avatar}}" ></image>
+			<text class="bbsUserName">{{item.nickname}}</text>
+		</view>
+	</navigator>
+</template>
