@@ -1,4 +1,6 @@
-var data_list = require('../../api/data_list.js');
+const apiUrl = require('../../const/const');
+let data_list = require('../../api/data_list.js');
+let api = require('../../api/api');
 //index.js
 //获取应用实例
 var app = getApp()
@@ -13,9 +15,16 @@ Page({
       'info_circle', 'cancel', 'search', 'clear'
     ],
     isShow: true,
-    dataListWrap: data_list.result.topics,
+    isSearch: false,
+    loadHidden: true,
+    dataListWrap: [],
     dataList: [],
-    wHeight: 0
+    wHeight: 0,
+    pageNumber: 1,
+    pageSize: 10,
+    modalHidden: true,
+    errInfo: '接口请求错误',
+    inpTxt: ''
   },
   
   onLoad() {
@@ -28,11 +37,7 @@ Page({
         userInfo:userInfo
       })
       that.update()
-    });
-
-    that.data.dataListWrap.map((data)=>{
-        that.data.dataList.push(data.topic);
-    });
+    });    
 
     wx.getSystemInfo({
       success: function(data){
@@ -41,6 +46,19 @@ Page({
       fail: function(err){
         console.log(err)
       }
+    });
+
+    that.setData({loadHidden: false});
+    api.queryRequest(apiUrl.BASE_URL + apiUrl.BBS_LIST, {sid: '100101', pageSize: 10, pageNumber: that.data.pageNumber}, (data)=>{
+      console.log(data.result.topics);
+      let pageNumber = that.data.pageNumber + 1;
+      that.setData({
+        loadHidden: true,
+        dataList: that.data.dataList.concat(that.getTopic(data.result.topics)),
+        pageNumber: pageNumber
+      });  
+    },(err)=>{
+      console.log(err);
     });
   },
 
@@ -51,11 +69,64 @@ Page({
     });   
   },
 
-  upper(e){
-    console.log(e)
+  loadData(e){
+    let that = this;
+
+    that.setData({loadHidden: false});
+
+    api.queryRequest(apiUrl.BASE_URL + apiUrl.BBS_LIST, {sid: '100101', pageSize: 10, pageNumber: that.data.pageNumber}, (data)=>{
+      if(data.status.code != '1') return;
+      let pageNumber = that.data.pageNumber + 1;
+      that.setData({
+        loadHidden: true,
+        dataList: that.data.dataList.concat(that.getTopic(data.result.topics)),
+        pageNumber: pageNumber
+      });  
+    },(err)=>{
+      console.log(err);
+      this.setData({modalHidden: false, loadHidden: true});
+    });
   },
 
-  lower(e){
-    console.log(e);
+  search(){
+    let that = this;
+
+    that.setData({loadHidden: false, dataList: [], pageNumber: 1, isSearch: true});
+
+    api.queryRequest(apiUrl.BASE_URL + apiUrl.BBS_SEARCH, {q: that.data.inpTxt, pageSize: 10, pageNumber: that.data.pageNumber}, (data)=>{
+      if(data.status.code != '1') return;
+      let pageNumber = that.data.pageNumber + 1;
+      console.log(pageNumber);
+      that.setData({
+        loadHidden: true,
+        dataList: that.data.dataList.concat(that.getTopic(data.result.topics)),
+        pageNumber: pageNumber
+      });  
+    },(err)=>{
+      console.log(err);
+      this.setData({modalHidden: false, loadHidden: true});
+    });
+  },
+
+  getTopic(data){
+    let arr = [];
+
+    data.map((data)=>{
+      arr.push(data.topic);
+    })
+
+    return arr;
+  },
+
+  modalChange() {
+    this.setData({modalHidden: true});
+  },
+
+  getInpTxt(e){
+    this.setData({inpTxt: e.detail.value});
+  },
+
+  cancelSearch(){
+    this.setData({isSearch: false, inpTxt: ''});
   }
 })

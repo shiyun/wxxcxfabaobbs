@@ -1,10 +1,9 @@
-<!--index.wxml-->
-<template name="searchWrap">
 <view class="searchWrap">
   <view class="searchInpWrap pr">
-    <input placeholder="搜索" auto-focus class="inp-search" placeholder-style="color:#fff;" />
-    <image src="../../../images/searchIcon.png" class="searchIcon"></image>
+    <input placeholder="搜索" focus class="inp-search" placeholder-style="color:#fff;" value="{{inpTxt}}" bindchange="getInpTxt" />
+    <view class="searchIconWrap" hidden="{{isSearch}}">
+      <image src="../../../images/searchIcon.png" class="searchIcon" bindtap="search"></image>
+    </view>
+    <view bindtap="cancelSearch" class="btn-cancel" hidden="{{!isSearch}}">清空</view>
   </view>
-  <!-- <button>取消</button> -->
 </view>
-</template>

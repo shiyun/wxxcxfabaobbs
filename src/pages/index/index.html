@@ -13,9 +13,16 @@
 
 <view class="shade" hidden="{{isShow}}" bindtap="changeShow"></view>
 -->
+<include src="../components/searchBar/searchBar.wxml"/>
 <import src="../components/bbsList/bbsList.wxml" />
-<scroll-view class="container" style="height:{{wHeight}}px;" scroll-y="true" bindscrolltoupper="upper" bindscrolltolower="lower">
+<scroll-view class="container" style="height:{{wHeight}}px;" scroll-y="true" bindscrolltoupper="loadData" bindscrolltolower="loadData">
 	<block wx:for="{{dataList}}" wx:for-item="item">		
 		<template is="bbsList" data="{{item}}"/>
 	</block>
 </scroll-view>
+
+<loading hidden="{{loadHidden}}">加载中...</loading>
+
+<modal title="提示" confirm-text="确定" no-cancel hidden="{{modalHidden}}" bindconfirm="modalChange">
+  {{errInfo}}
+</modal>

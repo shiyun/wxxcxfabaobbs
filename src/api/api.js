@@ -1,4 +1,4 @@
-function queryRequest(url,data){    
+function queryRequest(url,data, successCB, failCB){    
     wx.request({
         url:url,
         data:data,
@@ -6,27 +6,31 @@ function queryRequest(url,data){
            // "Content-Type":"application/json"
         },
         success:function(res){
-            console.log(res.data)
+            //console.log(res.data)
+            successCB && successCB(res.data);
         },
         fail:function(err){
-            console.log(err)
+            //console.log(err)
+            failCB && failCB(err);
         }
 
     })
 
 }
 
-function uploadFile(url,file,data) {
+function uploadFile(url,file,data, successCB, failCB) {
     wx.uploadFile({
         url: url,
         filePath: file,
         name: 'file',
         formData:data,
         success:function(res){
-            console.log(res.data)
+            //console.log(res.data)
+            successCB && successCB(res.data);
         },
         fail:function(err){
-            console.log(err)
+            //console.log(err)
+            failCB && failCB(err);
         }
 
     })
