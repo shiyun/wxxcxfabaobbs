@@ -29,7 +29,7 @@ Page({
     curType: 3,
     navData: ['推荐', '最新'],
     navOn: true,
-    shownav: true,    
+    addnav: false,    
     imgArr: ['http://fbimages.oss.aliyuncs.com/lawyercard/2016/06/29/C76C7D49A6E70D83988981EC130C8DBA.png', 'http://fbimages.oss.aliyuncs.com/lawyercard/2016/06/29/A59DCA6258FC40435ABF91C39E1C81EB.jpg', 'http://fbimages.oss.aliyuncs.com/lawyercard/2016/06/27/C2F09FED1C331ABD9B13E9064D1D12C2.jpg']
   },
   
