@@ -1,0 +1,13 @@
+<template name="navBarWrap">
+	<view class="navBarWrap">
+		<view class="navList">	  	
+			<block wx:for="{{navData}}">
+				<text class="navTxt {{index == 0 ? 'navTxtOn' : ''}}" bindtap="changeNav">{{item}}</text>
+			</block>	  	
+		</view>
+		<view class="choseNav">
+	  		<text hidden="{{!shownav}}">+</text>
+	  		<text hidden="{{shownav}}">È·¶¨</text>
+	  	</view>
+	</view>
+</template>

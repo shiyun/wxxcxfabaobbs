@@ -15,6 +15,10 @@
 -->
 <include src="../components/searchBar/searchBar.wxml"/>
 <import src="../components/bbsList/bbsList.wxml" />
+<import src="../components/navBar/navBar.wxml" />
+
+<template is="navBarWrap" data="{{navData}}" />
+
 <scroll-view class="container" style="height:{{wHeight}}px;" scroll-y="true" bindscrolltoupper="loadData" bindscrolltolower="loadData">
 	<swiper indicator-dots="true" autoplay="true" interval="800" duration="300">
 		<block wx:for="{{imgArr}}">

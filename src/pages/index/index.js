@@ -27,6 +27,9 @@ Page({
     errInfo: '接口请求错误',
     inpTxt: '',
     curType: 3,
+    navData: ['推荐', '最新'],
+    navOn: true,
+    shownav: true,    
     imgArr: ['http://fbimages.oss.aliyuncs.com/lawyercard/2016/06/29/C76C7D49A6E70D83988981EC130C8DBA.png', 'http://fbimages.oss.aliyuncs.com/lawyercard/2016/06/29/A59DCA6258FC40435ABF91C39E1C81EB.jpg', 'http://fbimages.oss.aliyuncs.com/lawyercard/2016/06/27/C2F09FED1C331ABD9B13E9064D1D12C2.jpg']
   },
   
@@ -55,7 +58,6 @@ Page({
     that.setData({loadHidden: false});
     api.queryRequest(apiUrl.BASE_URL + apiUrl.BBS_LIST, {sid: '100101', pageSize: 10, pageNumber: that.data.pageNumber})
       .then(data=>{
-        console.log(data.result.topics);
         let pageNumber = that.data.pageNumber + 1;
         that.setData({
           loadHidden: true,
@@ -136,5 +138,9 @@ Page({
 
   cancelSearch(){
     this.setData({isSearch: false, inpTxt: ''});
+  },
+
+  changeNav(){
+
   }
 })
