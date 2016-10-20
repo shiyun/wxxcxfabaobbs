@@ -1,68 +1,75 @@
-function queryRequest(url,data, successCB, failCB){    
-    wx.request({
-        url:url,
-        data:data,
-        header:{
-           // "Content-Type":"application/json"
-        },
-        success:function(res){
-            //console.log(res.data)
-            successCB && successCB(res.data);
-        },
-        fail:function(err){
-            //console.log(err)
-            failCB && failCB(err);
-        }
-
-    })
-
-}
-
-function uploadFile(url,file,data, successCB, failCB) {
-    wx.uploadFile({
-        url: url,
-        filePath: file,
-        name: 'file',
-        formData:data,
-        success:function(res){
-            //console.log(res.data)
-            successCB && successCB(res.data);
-        },
-        fail:function(err){
-            //console.log(err)
-            failCB && failCB(err);
-        }
-
-    })
-    
-}
-function downloadFile(url,typ,success){
-    wx.downloadFile({
-        url:url,
-        type:typ,
-        success:function(res){
-            if(success){
-                success(res.tempFilePath)
+function queryRequest(url,data){ 
+    let promise =  new Promise((resolve, reject)=>{
+        wx.request({
+            url:url,
+            data:data,
+            header:{
+               // "Content-Type":"application/json"
+            },
+            success:function(res){
+                //console.log(res.data)
+                resolve(res.data);
+            },
+            fail:function(err){
+                //console.log(err)
+                reject(err);
             }
-        },
-        fail:function(err){
-            console.log(err)
-        }
-    })
+
+        })
+    });     
+    return promise;
+}
+
+function uploadFile(url,file,data) {
+    return new Promise((resolve, reject)=>{
+        wx.uploadFile({
+            url: url,
+            filePath: file,
+            name: 'file',
+            formData:data,
+            success:function(res){
+                //console.log(res.data)
+                resolve(res.data);
+            },
+            fail:function(err){
+                //console.log(err)
+                reject(err);
+            }
+
+        })
+    });  
+}
+
+function downloadFile(url,typ){
+    return new Promise((resolve, reject)=>{
+        wx.downloadFile({
+            url:url,
+            type:typ,
+            success:function(res){
+                resolve(res.tempFilePath)
+            },
+            fail:function(err){
+                reject(err)
+            }
+        })
+    });  
 }
 
 function saveFile(tempFile,success){
-    wx.saveFile({
-        tempFilePath:tempFile,
-        success:function(res){
-            var svaedFile=res.savedFilePath
-            if(success){
-                success(svaeFile)
+    return new Promise((resolve, reject)=>{
+        wx.saveFile({
+            tempFilePath:tempFile,
+            success:function(res){
+                var svaedFile=res.savedFilePath
+                resolve(svaeFile)
+            },
+            fail:function(err){
+                reject(err)
             }
-        }
-    })
-
+        })
+    });  
 }
+
 module.exports={
     queryRequest:queryRequest,
     uploadFile:uploadFile,

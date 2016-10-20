@@ -20,46 +20,50 @@ Page({
     dataListWrap: [],
     dataList: [],
     wHeight: 0,
+    wWidth: 0,
     pageNumber: 1,
     pageSize: 10,
     modalHidden: true,
     errInfo: '接口请求错误',
-    inpTxt: ''
+    inpTxt: '',
+    curType: 3,
+    imgArr: ['http://fbimages.oss.aliyuncs.com/lawyercard/2016/06/29/C76C7D49A6E70D83988981EC130C8DBA.png', 'http://fbimages.oss.aliyuncs.com/lawyercard/2016/06/29/A59DCA6258FC40435ABF91C39E1C81EB.jpg', 'http://fbimages.oss.aliyuncs.com/lawyercard/2016/06/27/C2F09FED1C331ABD9B13E9064D1D12C2.jpg']
   },
   
   onLoad() {
-    console.log('onLoad')
-    var that = this
-  	//调用应用实例的方法获取全局数据
-    app.getUserInfo(function(userInfo){
-      //更新数据
-      that.setData({
-        userInfo:userInfo
+    var that = this;
+    if(app.globalData.userInfo){
+       that.setData({
+        userInfo:app.globalData.userInfo
       })
-      that.update()
-    });    
+      //that.update()
+    }else{
+      app.getUserInfo(function(userInfo){
+        that.setData({
+          userInfo:userInfo
+        })
+        //that.update()
+      }); 
+    }   
 
-    wx.getSystemInfo({
-      success: function(data){
-        that.setData({wHeight: data.windowHeight})
-      },
-      fail: function(err){
-        console.log(err)
-      }
-    });
+    if(app.globalData.deviceInfo){
+      that.setData({wHeight: app.globalData.deviceInfo.windowHeight, wWidth: app.globalData.deviceInfo.windowWidth});
+    }else{
+      app.getDeviceInfo(data => that.setData({wHeight: data.windowHeight, wWidth: data.windowWidth})); 
+    }
 
     that.setData({loadHidden: false});
-    api.queryRequest(apiUrl.BASE_URL + apiUrl.BBS_LIST, {sid: '100101', pageSize: 10, pageNumber: that.data.pageNumber}, (data)=>{
-      console.log(data.result.topics);
-      let pageNumber = that.data.pageNumber + 1;
-      that.setData({
-        loadHidden: true,
-        dataList: that.data.dataList.concat(that.getTopic(data.result.topics)),
-        pageNumber: pageNumber
-      });  
-    },(err)=>{
-      console.log(err);
-    });
+    api.queryRequest(apiUrl.BASE_URL + apiUrl.BBS_LIST, {sid: '100101', pageSize: 10, pageNumber: that.data.pageNumber})
+      .then(data=>{
+        console.log(data.result.topics);
+        let pageNumber = that.data.pageNumber + 1;
+        that.setData({
+          loadHidden: true,
+          dataList: that.data.dataList.concat(that.getTopic(data.result.topics)),
+          pageNumber: pageNumber
+        });  
+      })
+      .catch(err=>console.log(err));
   },
 
   changeShow(){
@@ -74,18 +78,20 @@ Page({
 
     that.setData({loadHidden: false});
 
-    api.queryRequest(apiUrl.BASE_URL + apiUrl.BBS_LIST, {sid: '100101', pageSize: 10, pageNumber: that.data.pageNumber}, (data)=>{
-      if(data.status.code != '1') return;
-      let pageNumber = that.data.pageNumber + 1;
-      that.setData({
-        loadHidden: true,
-        dataList: that.data.dataList.concat(that.getTopic(data.result.topics)),
-        pageNumber: pageNumber
-      });  
-    },(err)=>{
-      console.log(err);
-      this.setData({modalHidden: false, loadHidden: true});
-    });
+    api.queryRequest(apiUrl.BASE_URL + apiUrl.BBS_LIST, {sid: '100101', pageSize: 10, pageNumber: that.data.pageNumber})
+      .then(data=>{
+        if(data.status.code != '1') return;        
+        let pageNumber = that.data.pageNumber + 1;
+        that.setData({
+          loadHidden: true,
+          dataList: that.data.dataList.concat(that.getTopic(data.result.topics)),
+          pageNumber: pageNumber
+        });  
+      })
+      .catch(err=>{
+        console.log(err);
+        this.setData({modalHidden: false, loadHidden: true});
+      });
   },
 
   search(){
@@ -93,19 +99,21 @@ Page({
 
     that.setData({loadHidden: false, dataList: [], pageNumber: 1, isSearch: true});
 
-    api.queryRequest(apiUrl.BASE_URL + apiUrl.BBS_SEARCH, {q: that.data.inpTxt, pageSize: 10, pageNumber: that.data.pageNumber}, (data)=>{
-      if(data.status.code != '1') return;
-      let pageNumber = that.data.pageNumber + 1;
-      console.log(pageNumber);
-      that.setData({
-        loadHidden: true,
-        dataList: that.data.dataList.concat(that.getTopic(data.result.topics)),
-        pageNumber: pageNumber
-      });  
-    },(err)=>{
-      console.log(err);
-      this.setData({modalHidden: false, loadHidden: true});
-    });
+    api.queryRequest(apiUrl.BASE_URL + apiUrl.BBS_SEARCH, {q: that.data.inpTxt, pageSize: 10, pageNumber: that.data.pageNumber})
+      .then(data=>{
+        if(data.status.code != '1') return;
+        let pageNumber = that.data.pageNumber + 1;
+        console.log(pageNumber);
+        that.setData({
+          loadHidden: true,
+          dataList: that.data.dataList.concat(that.getTopic(data.result.topics)),
+          pageNumber: pageNumber
+        });  
+      })
+      .catch(err=>{
+        console.log(err);
+        this.setData({modalHidden: false, loadHidden: true});
+      });
   },
 
   getTopic(data){

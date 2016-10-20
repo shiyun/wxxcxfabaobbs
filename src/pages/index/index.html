@@ -16,9 +16,16 @@
 <include src="../components/searchBar/searchBar.wxml"/>
 <import src="../components/bbsList/bbsList.wxml" />
 <scroll-view class="container" style="height:{{wHeight}}px;" scroll-y="true" bindscrolltoupper="loadData" bindscrolltolower="loadData">
-	<block wx:for="{{dataList}}" wx:for-item="item">		
+	<swiper indicator-dots="true" autoplay="true" interval="800" duration="300">
+		<block wx:for="{{imgArr}}">
+			<swiper-item>
+				<image src="{{item}}" class="swiperImg" />
+			</swiper-item>
+		</block>
+	</swiper>
+	<view wx:for="{{dataList}}" class="listWrap">		
 		<template is="bbsList" data="{{item}}"/>
-	</block>
+	</view>
 </scroll-view>
 
 <loading hidden="{{loadHidden}}">加载中...</loading>
