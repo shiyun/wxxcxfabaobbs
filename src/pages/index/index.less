@@ -22,14 +22,24 @@
 .bbsList {&:extend(.bgWhite);border-radius:4px;padding:.6rem;margin-bottom:1rem;}
 .bbsTit {&:extend(.f16);font-weight: 700;}
 .bbsContWrap {margin: .2rem 0 .8rem;}
-.bbsCont {&:extend(.f14);&:extend(.c6);}
+.bbsCont {&:extend(.f14,.c6);word-break: break-word;}
 .bbsUserName {&:extend(.f12,.vm,.c9,.ml10);}
 .bbsUserHeader {height:1.2rem;width:1.2rem;border-radius:50%;&:extend(.vm);}
 .btn-cancel {height:1.4rem;line-height: 1.4rem;&:extend(.cwhite,.f14,.tc);position:absolute;right:0;top:0;}
 .listWrap {margin:1rem;}
 .swiperImg {width:100%;height:100%;}
-.navBarWrap {height:2rem;line-height: 1.84rem;&:extend(.pa,.bgWhite,.fy,.f14);top:1.8rem;left:0;right:0;z-index:1;box-sizing: border-box;}
+.navBarWrap {height:2rem;line-height: 1.84rem;&:extend(.fixed,.bgWhite,.fy,.f14);top:1.8rem;left:0;right:0;z-index:1;box-sizing: border-box;}
 .navTxt {&:extend(.dib,.tc);padding:0 1rem;border-bottom: .2rem solid #fff;box-sizing: border-box;}
 .navTxtOn {border-bottom: .2rem solid #3dbed8;}
-.navListTxt {border:1px solid #3dbed8;border-radius: 2px;width:29%;height:1.6rem;line-height: 1.6rem;margin-left: 2.7%;&:extend(.dib,.tc);}
+.navList {&:extend(.oh);width:100%;padding-right: 3rem; white-space: nowrap;box-sizing: border-box;
+}
+
 .choseNav {&:extend(.pa,.tc,.f14);color:#3dbed8;top:0;right:0;bottom:0;width:3rem;box-shadow: -3px 0 4px rgba(0,0,0,.5);}
+.choseNavListWrap {
+	&:extend(.fixed);background-color: rgba(0,0,0,.5);top:3.8rem;left:0;right:0;bottom:0;z-index: 2;
+}
+.choseNavList {
+	&:extend(.bgWhite);padding:1rem 0;border-top: 1px solid #ddd;display:flex;justify-content: space-around;flex-flow: row wrap;
+}
+.choseNavTxt {border:1px solid #ddd;border-radius: 2px;height:1.6rem;line-height: 1.6rem;&:extend(.tc);width:28%;}
+.curChoseNav {border-color: #3dbed8;}

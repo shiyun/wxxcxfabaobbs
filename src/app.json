@@ -1,6 +1,7 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/toutiao/toutiao",
     "pages/detail/detail"
   ],
   "window":{
@@ -22,7 +23,7 @@
       "selectedIconPath": "images/chat.png",
       "text": "在线咨询"
     }, {
-      "pagePath": "pages/detail/detail",
+      "pagePath": "pages/toutiao/toutiao",
       "iconPath": "images/phone.png",
       "selectedIconPath": "images/phone.png",
       "text": "电话律师"

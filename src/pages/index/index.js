@@ -1,9 +1,8 @@
-const apiUrl = require('../../const/const');
-let data_list = require('../../api/data_list.js');
-let api = require('../../api/api');
-//index.js
-//获取应用实例
-var app = getApp()
+import apiUrl from '../../const/const';
+import api from '../../api/api';
+
+const app = getApp();
+
 Page({
   data: {    
     userInfo: {},
@@ -14,7 +13,6 @@ Page({
       'success_circle', 'success_no_circle', 'waiting_circle', 'circle', 'download',
       'info_circle', 'cancel', 'search', 'clear'
     ],
-    isShow: true,
     isSearch: false,
     loadHidden: true,
     dataListWrap: [],
@@ -27,9 +25,12 @@ Page({
     errInfo: '接口请求错误',
     inpTxt: '',
     curType: 3,
-    navData: ['推荐', '最新'],
+    navData: [],
     navOn: true,
-    addnav: false,    
+    addnav: false, 
+    curNav: 0,  
+    curNavId: '',
+    sid: '',
     imgArr: ['http://fbimages.oss.aliyuncs.com/lawyercard/2016/06/29/C76C7D49A6E70D83988981EC130C8DBA.png', 'http://fbimages.oss.aliyuncs.com/lawyercard/2016/06/29/A59DCA6258FC40435ABF91C39E1C81EB.jpg', 'http://fbimages.oss.aliyuncs.com/lawyercard/2016/06/27/C2F09FED1C331ABD9B13E9064D1D12C2.jpg']
   },
   
@@ -55,32 +56,59 @@ Page({
       app.getDeviceInfo(data => that.setData({wHeight: data.windowHeight, wWidth: data.windowWidth})); 
     }
 
-    that.setData({loadHidden: false});
-    api.queryRequest(apiUrl.BASE_URL + apiUrl.BBS_LIST, {sid: '100101', pageSize: 10, pageNumber: that.data.pageNumber})
+    that.setData({loadHidden: false});    
+
+    api.fetch(apiUrl.BBS_TABNAV, {})
       .then(data=>{
-        let pageNumber = that.data.pageNumber + 1;
-        that.setData({
-          loadHidden: true,
-          dataList: that.data.dataList.concat(that.getTopic(data.result.topics)),
-          pageNumber: pageNumber
-        });  
+        that.setData({navData: data.result.tabs, curNavId: data.result.tabs[0].id});
+        
+        return data.result.tabs[0].id;
+      })
+      .then(id=>{
+        api.fetch(apiUrl.BBS_LIST, {sid: id, pageSize: that.data.pageSize, pageNumber: that.data.pageNumber})
+          .then(data=>{
+            let pageNumber = that.data.pageNumber + 1;
+            that.setData({
+              loadHidden: true,
+              dataList: that.data.dataList.concat(that.getTopic(data.result.topics)),
+              pageNumber: pageNumber
+            });  
+          })
+          .catch(err=>console.log(err));
       })
       .catch(err=>console.log(err));
   },
 
-  changeShow(){
-    let that = this;
-    that.setData({
-      isShow: !that.data.isShow
+  changeNav(e){
+    let index = e.currentTarget.dataset.index;
+    let type = e.currentTarget.dataset.type;
+    let id = e.currentTarget.dataset.id;
+    this.setData({
+      curNav: index,
+      curType: type,
+      curNavId: id,
+      pageNumber: 1,
+      dataList: []
     });   
+    this.loadData();
   },
 
   loadData(e){
-    let that = this;
+    let that = this,
+        interUrl,
+        postData;
 
     that.setData({loadHidden: false});
 
-    api.queryRequest(apiUrl.BASE_URL + apiUrl.BBS_LIST, {sid: '100101', pageSize: 10, pageNumber: that.data.pageNumber})
+    if(that.data.curType === -1){
+      interUrl = apiUrl.BBS_SEARCH;
+      postData = {q: that.data.inpTxt, pageNumber: that.data.pageNumber, pageSize: that.data.pageSize};
+    }else{
+      interUrl = apiUrl.BBS_LIST;
+      postData = {sid: that.data.curNavId, pageNumber: that.data.pageNumber, pageSize: that.data.pageSize};
+    }
+
+    api.fetch(interUrl, postData)
       .then(data=>{
         if(data.status.code != '1') return;        
         let pageNumber = that.data.pageNumber + 1;
@@ -99,9 +127,9 @@ Page({
   search(){
     let that = this;
 
-    that.setData({loadHidden: false, dataList: [], pageNumber: 1, isSearch: true});
-
-    api.queryRequest(apiUrl.BASE_URL + apiUrl.BBS_SEARCH, {q: that.data.inpTxt, pageSize: 10, pageNumber: that.data.pageNumber})
+    that.setData({curType: -1, loadHidden: false, dataList: [], pageNumber: 1, isSearch: true});
+    that.loadData();
+    /*api.fetch(apiUrl.BBS_SEARCH, {q: that.data.inpTxt, pageSize: 10, pageNumber: that.data.pageNumber})
       .then(data=>{
         if(data.status.code != '1') return;
         let pageNumber = that.data.pageNumber + 1;
@@ -115,7 +143,7 @@ Page({
       .catch(err=>{
         console.log(err);
         this.setData({modalHidden: false, loadHidden: true});
-      });
+      });*/
   },
 
   getTopic(data){
@@ -140,7 +168,17 @@ Page({
     this.setData({isSearch: false, inpTxt: ''});
   },
 
-  changeNav(){
-
+  choseNav(e){
+    let that = this;
+    let index = e.currentTarget.dataset.index;
+    that.data.navData.map((v,k)=>{
+      if(k == 1 || k == 2){
+        that.data['choseNav'+k] = true;
+      }else{
+        that.data['choseNav'+k] = false;
+      }
+    }); 
+    //if(that.data['choseNav'+index])
   }
+
 })

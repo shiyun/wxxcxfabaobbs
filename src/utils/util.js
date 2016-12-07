@@ -29,9 +29,30 @@ function json2Form(json) {
     return str.join("&");
 }
 
+function timeConvert(a) {
+    if (a) {
+        a = parseInt(a);
+        var b, c, d;
+        b = parseInt((new Date).getTime() / 1E3) - a;
+        d = parseInt(b / 86400);
+        c = parseInt(b / 3600);
+        b = parseInt(b / 60);
+        if (0 < d && 4 > d)
+            return d + "\u5929\u524d";
+        if (0 >= d && 0 < c)
+            return c + "\u5c0f\u65f6\u524d";
+        if (0 >= c && 0 < b)
+            return b + "\u5206\u949f\u524d";
+        a = new Date(1E3 * a);
+        return a.getFullYear() + "-" + (a.getMonth() + 1) + "-" + a.getDate()
+    }
+    return ""
+}
+
 module.exports = {
-  formatTime: formatTime,
-  formatNumber: formatNumber,
-  parseHtml: parseHtml,
-  json2Form: json2Form
+  formatTime,
+  formatNumber,
+  parseHtml,
+  json2Form,
+  timeConvert
 }

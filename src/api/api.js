@@ -1,7 +1,12 @@
-function queryRequest(url,data){ 
+import apiUrl from '../const/const';
+import Promise from '../utils/es6-promise.min';
+
+const baseUrl = apiUrl.BASE_URL;
+
+function fetch(url,data){ 
     let promise =  new Promise((resolve, reject)=>{
         wx.request({
-            url:url,
+            url: baseUrl + url,
             data:data,
             header:{
                // "Content-Type":"application/json"
@@ -71,8 +76,8 @@ function saveFile(tempFile,success){
 }
 
 module.exports={
-    queryRequest:queryRequest,
-    uploadFile:uploadFile,
+    fetch: fetch,
+    uploadFile: uploadFile,
 	downloadFile: downloadFile,
 	saveFile: saveFile
 }

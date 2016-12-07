@@ -17,17 +17,17 @@
 <import src="../components/bbsList/bbsList.wxml" />
 <import src="../components/navBar/navBar.wxml" />
 
-<template is="navBarWrap" data="{{navData}}" />
+<template is="navBarWrap" data="{{navData, curNav, changeNav, choseNav}}" />
 
 <scroll-view class="container" style="height:{{wHeight}}px;" scroll-y="true" bindscrolltoupper="loadData" bindscrolltolower="loadData">
 	<swiper indicator-dots="true" autoplay="true" interval="800" duration="300">
-		<block wx:for="{{imgArr}}">
+		<block wx:for="{{imgArr}}" wx:key="{{index}}">
 			<swiper-item>
 				<image src="{{item}}" class="swiperImg" />
 			</swiper-item>
 		</block>
 	</swiper>
-	<view wx:for="{{dataList}}" class="listWrap">		
+	<view wx:for="{{dataList}}" class="listWrap" wx:key="{{index}}">		
 		<template is="bbsList" data="{{item}}"/>
 	</view>
 </scroll-view>

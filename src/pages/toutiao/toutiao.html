@@ -1,0 +1,23 @@
+<scroll-view class="container" style="height:{{wHeight}}px;" scroll-y="true" bindscrolltoupper="loadData" bindscrolltolower="loadData">
+	<view class="masonryWrap">
+		<navigator class="masonry" wx:for="{{data}}" wx:key="{{index}}" url="../detail/detail?id={{item.id}}&type=33">
+			<view class="pr f0">
+				<image src="{{item.image_url}}" class="pw100" mode="scaleToFill" />
+				<view class="artTitleWrap"><text>{{item.title}}</text></view>
+			</view>
+			
+			<view class="masonryBottom">
+				<image src="{{item.media_avatar_url}}" class="w20 vm" />
+				<text class="vm">{{item.source}}</text>
+				<text class="vm">{{item.comments_count}}条评论</text>
+				<text class="vm">{{item.behot_time}}</text>
+			</view>
+		</navigator>
+	</view>	
+</scroll-view>
+
+<loading hidden="{{loadHidden}}">加载中...</loading>
+
+<modal title="提示" confirm-text="确定" no-cancel hidden="{{modalHidden}}" bindconfirm="modalChange">
+  {{errInfo}}
+</modal>

@@ -1,13 +1,20 @@
 <template name="navBarWrap">
 	<view class="navBarWrap">
-		<view class="navList">	  	
-			<block wx:for="{{navData}}">
-				<text class="navTxt {{index == 0 ? 'navTxtOn' : ''}}" bindtap="changeNav">{{item}}</text>
+		<scroll-view class="navList" scroll-x="true">	  	
+			<block wx:for="{{navData}}" wx:key="{{index}}">
+				<text bindtap="changeNav" class="navTxt {{curNav == index ? 'navTxtOn' : ''}}" data-index="{{index}}" data-type="{{item.type}}" data-id="{{item.id}}">{{item.name}}</text>
 			</block>	  	
-		</view>
+		</scroll-view>
 		<view class="choseNav">
 	  		<text hidden="{{addnav}}" class="f18">+</text>
 	  		<text hidden="{{!addnav}}">确定</text>
 	  	</view>
+	</view>
+	<view class="choseNavListWrap">
+		<view class="choseNavList">
+			<block wx:for="{{navData}}" wx:key="{{index}}">
+				<text bindtap="choseNav" class="choseNavTxt {{choseNav+index == index ? 'curChoseNav' : ''}}" data-index="{{index}}" data-type="{{item.type}}" data-id="{{item.id}}">{{item.name}}{{choseNav}}</text>
+			</block>
+		</view>
 	</view>
 </template>
