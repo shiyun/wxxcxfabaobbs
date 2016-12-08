@@ -1,0 +1,10 @@
+<view wx:for="{{data}}" wx:key="{{index}}">
+	<view class="textListWrap"><text>{{item.desp}}</text></view>
+	<view class="imgListWrap"><image src="{{item.img}}" mode="aspectFit" /></view>
+</view>
+
+<loading hidden="{{loadHidden}}">加载中...</loading>
+
+<modal title="提示" confirm-text="确定" no-cancel hidden="{{modalHidden}}" bindconfirm="modalChange">
+  {{errInfo}}
+</modal>

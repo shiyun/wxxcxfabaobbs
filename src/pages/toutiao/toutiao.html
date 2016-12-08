@@ -1,17 +1,16 @@
-<scroll-view class="container" style="height:{{wHeight}}px;" scroll-y="true" bindscrolltoupper="loadData" bindscrolltolower="loadData">
+<scroll-view class="container" style="height:{{wHeight}}px;" scroll-y="true" bindscrolltoupper="_getData" bindscrolltolower="_getData">
 	<view class="masonryWrap">
-		<navigator class="masonry" wx:for="{{data}}" wx:key="{{index}}" url="../detail/detail?id={{item.id}}&type=33">
-			<view class="pr f0">
-				<image src="{{item.image_url}}" class="pw100" mode="scaleToFill" />
+		<navigator class="masonry" wx:for="{{data}}" wx:key="{{index}}" url="../toutiaolist/toutiaolist?id={{item.group_id}}">
+			<image src="{{item.image_url}}" class="pw100" mode="aspectFill" />
+			<view class="artRight">
 				<view class="artTitleWrap"><text>{{item.title}}</text></view>
-			</view>
-			
-			<view class="masonryBottom">
-				<image src="{{item.media_avatar_url}}" class="w20 vm" />
-				<text class="vm">{{item.source}}</text>
-				<text class="vm">{{item.comments_count}}条评论</text>
-				<text class="vm">{{item.behot_time}}</text>
-			</view>
+				<view class="masonryBottom">
+					<image src="{{item.media_avatar_url}}" class="w20 vm" />
+					<text class="vm">{{item.source}}</text>
+					<text class="vm">{{item.comments_count}}条评论</text>
+					<text class="vm">{{item.behot_time}}</text>
+				</view>
+			</view>				
 		</navigator>
 	</view>	
 </scroll-view>

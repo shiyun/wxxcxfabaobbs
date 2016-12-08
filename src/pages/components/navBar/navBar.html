@@ -10,7 +10,7 @@
 	  		<text hidden="{{!addnav}}">确定</text>
 	  	</view>
 	</view>
-	<view class="choseNavListWrap">
+	<view class="choseNavListWrap" hidden="true">
 		<view class="choseNavList">
 			<block wx:for="{{navData}}" wx:key="{{index}}">
 				<text bindtap="choseNav" class="choseNavTxt {{choseNav+index == index ? 'curChoseNav' : ''}}" data-index="{{index}}" data-type="{{item.type}}" data-id="{{item.id}}">{{item.name}}{{choseNav}}</text>

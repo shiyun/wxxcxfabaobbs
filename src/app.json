@@ -2,7 +2,8 @@
   "pages":[
     "pages/index/index",
     "pages/toutiao/toutiao",
-    "pages/detail/detail"
+    "pages/detail/detail",
+    "pages/toutiaolist/toutiaolist"
   ],
   "window":{
     "backgroundTextStyle":"light",

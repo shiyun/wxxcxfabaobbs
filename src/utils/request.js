@@ -1,7 +1,7 @@
 import Promise from './es6-promise.min'
 
 export const request = (method = 'GET') => (url, data) => {
-  return new Promise((resole, reject) => {
+  return new Promise((resolve, reject) => {
     wx.request({
       url,
       data,
