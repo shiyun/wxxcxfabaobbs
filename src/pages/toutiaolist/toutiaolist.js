@@ -20,7 +20,7 @@ Page({
             if(v.indexOf('<img')>-1){
               imgArr.push(v.match(/<img\ssrc=\"(\S*)\"/)[1]);
             }else{
-              despArr.push(v.replace(/(<p>|<\/p>)/, ''));
+              despArr.push(v.replace(/(<p>|<\/p>|<h1>|<\/h1>)/, ''));
             }            
           });
           let obj = [];

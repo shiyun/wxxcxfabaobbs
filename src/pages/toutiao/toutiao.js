@@ -25,11 +25,10 @@ Page({
 
   _getData(){
     let that = this;
-    console.log(that.data.timeStamp);
     let url = `http://www.toutiao.com/api/pc/feed/?category=funny&utm_source=toutiao&widen=1&max_behot_time=${that.data.timeStamp}&max_behot_time_tmp=${that.data.timeStamp}&as=A1259804C83F235&cp=58480F1243858E1`;
     get(url,{})
       .then(res=>{
-        console.log(JSON.stringify(res));
+        //console.log(JSON.stringify(res));
         let arr = [];
         res.data.map(item=>{
           let behot_time = timeConvert(item.behot_time);
@@ -37,7 +36,7 @@ Page({
           arr.push(obj);
         });
         let dataArr = arr.concat(that.data.data);
-        console.log(dataArr);
+        //console.log(dataArr);
         that.setData({data: dataArr, timeStamp: res.next.max_behot_time});
       })
       .catch(err=>console.log(err));
